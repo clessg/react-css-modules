@@ -19,6 +19,10 @@ export default (Component: Object, defaultStyles: Object, options: Object) => {
 
             propsChanged = false;
 
+            console.log('----------------------\neRC.js == extendReactClass.js | lC.js = linkClass.js');
+            console.log('----------------------\nRender Wrapped React CSS Component');
+            console.log('eRC.js - this.props: ', this.props, 'defaultStyles: ', defaultStyles);
+
             if (this.props.styles) {
                 styles = this.props.styles;
             } else if (_.isObject(defaultStyles)) {
@@ -33,12 +37,16 @@ export default (Component: Object, defaultStyles: Object, options: Object) => {
             }
 
             const renderResult = super.render();
+            if (renderResult) {
+                console.log('eRC.js - renderResult.props', renderResult.props, styles);
+            }
 
             if (propsChanged) {
                 delete this.props.styles;
             }
 
             if (renderResult) {
+                console.log('eRC.js - renderResult.props', renderResult.props, styles);
                 return linkClass(renderResult, styles, options);
             }
 
