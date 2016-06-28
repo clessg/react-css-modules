@@ -170,5 +170,41 @@ describe('reactCssModules', () => {
                 expect(subject.firstChild.className).to.equal('foo-0');
             });
         });
+        context('parent component is using react-css-modules and interpolates props.children', () => {
+            context('parent sets styleName prop on child component', () => {
+                // @see https://github.com/gajus/react-css-modules/pull/129
+                it('composes the classNames of both components', () => {
+                    let Button,
+                      RedButton,
+                      subject;
+
+                    Button = class extends React.Component {
+                        render () {
+                            return <div styleName='button'>So pretty.</div>;
+                        }
+                    };
+
+                    Button = reactCssModules(Button, {
+                        button: 'button-0'
+                    });
+
+                    RedButton = class extends React.Component {
+                        render () {
+                            return <Button styleName="red-button" />;
+                        }
+                    };
+
+                    RedButton = reactCssModules(RedButton, {
+                        "red-button": 'red-button-0'
+                    });
+
+                    subject = TestUtils.renderIntoDocument(<RedButton />);
+
+                    subject = ReactDOM.findDOMNode(subject);
+
+                    expect(subject.className).to.equal('red-button-0 button-0');
+                });
+            });
+        });
     });
 });

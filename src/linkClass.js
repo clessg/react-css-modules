@@ -41,12 +41,13 @@ const linkElement = (element: ReactElement, styles: Object, configuration: Objec
         appendClassName = generateAppendClassName(styles, styleNames, configuration.errorWhenNotFound);
 
         if (appendClassName) {
+            console.log(' lC.js - elementShallowCopy.props.className', elementShallowCopy.props.className);
             if (elementShallowCopy.props.className) {
                 appendClassName = elementShallowCopy.props.className + ' ' + appendClassName;
             }
 
             elementShallowCopy.props.className = appendClassName;
-            elementShallowCopy.props.styleName = null;
+            delete elementShallowCopy.props.styleName;
         }
     }
 
@@ -55,6 +56,7 @@ const linkElement = (element: ReactElement, styles: Object, configuration: Objec
         Object.freeze(elementShallowCopy);
     }
 
+    console.log(' lC.js - linkedElement.props', elementShallowCopy.props);
     return elementShallowCopy;
 };
 
